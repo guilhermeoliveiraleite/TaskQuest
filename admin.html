@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatório Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #003366;
+      padding: 10px 20px;
+      color: white;
+    }
+    button {
+      background-color: #00cc66;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    h2 {
+      color: #003366;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #003366;
+      color: white;
+    }
+    .summary {
+      margin-top: 30px;
+    }
+    canvas {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Relatório Admin</h1>
+    <div>
+      <button onclick="window.location.href='index.html'">Início</button>
+      <button onclick="mostrarResumo()">Resumo Total</button>
+    </div>
+  </header>
+
+  <h2>Desempenho Individual</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Ligações</th>
+        <th>Propostas</th>
+        <th>Visitas</th>
+      </tr>
+    </thead>
+    <tbody id="tabela-dados"></tbody>
+  </table>
+
+  <div class="summary" id="resumo-total" style="display:none">
+    <h2>Resumo Total</h2>
+    <p id="resumo-texto"></p>
+  </div>
+
+  <canvas id="grafico"></canvas>
+
+  <script>
+    const nomes = ['Tokyo', 'Brunhino', 'Chester', 'Mlkin', 'Ricardo'];
+    const dados = nomes.map(nome => ({
+      nome,
+      ligacoes: Math.floor(Math.random() * 10) + 1,
+      propostas: Math.floor(Math.random() * 10) + 1,
+      visitas: Math.floor(Math.random() * 10) + 1
+    }));
+
+    const tabela = document.getElementById('tabela-dados');
+    dados.forEach(pessoa => {
+      const row = `<tr>
+        <td>${pessoa.nome}</td>
+        <td>${pessoa.ligacoes}</td>
+        <td>${pessoa.propostas}</td>
+        <td>${pessoa.visitas}</td>
+      </tr>`;
+      tabela.innerHTML += row;
+    });
+
+    const ctx = document.getElementById('grafico').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: nomes,
+        datasets: [
+          {
+            label: 'Ligações',
+            backgroundColor: '#007bff',
+            data: dados.map(d => d.ligacoes)
+          },
+          {
+            label: 'Propostas',
+            backgroundColor: '#ffc107',
+            data: dados.map(d => d.propostas)
+          },
+          {
+            label: 'Visitas',
+            backgroundColor: '#28a745',
+            data: dados.map(d => d.visitas)
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 10
+          }
+        }
+      }
+    });
+
+    function mostrarResumo() {
+      const totalLigacoes = dados.reduce((sum, p) => sum + p.ligacoes, 0);
+      const totalPropostas = dados.reduce((sum, p) => sum + p.propostas, 0);
+      const totalVisitas = dados.reduce((sum, p) => sum + p.visitas, 0);
+      document.getElementById('resumo-texto').innerText = `Total: ${totalLigacoes} ligações, ${totalPropostas} propostas, ${totalVisitas} visitas.`;
+      document.getElementById('resumo-total').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

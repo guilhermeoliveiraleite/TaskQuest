@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TaskQuest</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Estilos básicos para exibição */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      background-color: #022d59; /* Azul escuro */
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    .logo img {
+      height: 50%;
+    }
+
+    nav button {
+      background-color: #33cc33;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      margin-left: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+
+    .main {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .left, .right {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .left img {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .tarefa {
+      margin-bottom: 20px;
+    }
+
+    .barra {
+      background-color: #ddd;
+      border-radius: 5px;
+      height: 25px;
+      width: 100%;
+      margin-bottom: 5px;
+      position: relative;
+    }
+
+    .progresso {
+      background-color: #3399ff;
+      height: 100%;
+      border-radius: 5px;
+      width: 0%;
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      line-height: 25px;
+    }
+
+    .botao {
+      background-color: #33cc33;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .profile-icon {
+      font-size: 22px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-left: 15px;
+    }
+
+    .profile-menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  width: 180px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  z-index: 1000;
+  font-size: 14px;
+  color: #333;
+}
+
+.profile-dropdown h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.profile-icon {
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 15px;
+  color: white;
+  background-color: #0066cc;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+tbody{
+    color: #333;
+}
+
+.profile-icon:hover {
+  background-color: #919395;
+}
+
+    @media (max-width: 768px) {
+      .main {
+        flex-direction: column;
+      }
+
+      .right {
+        order: -1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Logo">
+    </div>
+    <nav>
+      <button><a href="index.html" style="color: white; text-decoration: none;">Início</a></button>
+      <button><a href="admin.html" style="color: white; text-decoration: none;">Admin</a></button>
+      <button>Configurações</button>
+      <div class="profile-menu-container">
+  <button class="profile-icon" id="profileBtn">👤</button>
+  <div class="profile-dropdown" id="profileDropdown" style="display: none;">
+    <h3>Resumo do dia</h3>
+    <p>Ligações: <span id="resLigacoes">0</span>/10</p>
+    <p>Propostas: <span id="resPropostas">0</span>/10</p>
+    <p>Visitas: <span id="resVisitas">0</span>/10</p>
+  </div>
+</div>
+    </nav>
+  </header>
+
+  <div class="main">
+    <div class="left">
+      <img src="dragon.jpg" alt="Logo Dragon Punk">
+      <table style="width: 100%; max-width: 400px; border-collapse: collapse; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden;">
+  <thead style="background-color: #022d59; color: white;">
+    <tr>
+      <th style="padding: 10px; text-align: left;">Tarefa</th>
+      <th style="padding: 10px; text-align: right;">Progresso</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 10px;">Ligações</td>
+      <td style="padding: 10px; text-align: right;"><span id="resumoLigacoes">0%</span></td>
+    </tr>
+    <tr style="background-color: #f9f9f9;">
+      <td style="padding: 10px;">Propostas</td>
+      <td style="padding: 10px; text-align: right;"><span id="resumoPropostas">0%</span></td>
+    </tr>
+    <tr>
+      <td style="padding: 10px;">Visitas</td>
+      <td style="padding: 10px; text-align: right;"><span id="resumoVisitas">0%</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin-top: 20px; font-weight: bold;">
+  🏆 Faltam <span id="faltamTop1">5</span> pontos para ser o Top 1 da unidade de Indaiatuba!<br>
+  🚀 Próximo passo: alcançar o Top 1 da <strong>EletroBidu</strong>!
+</p>
+    </div>
+
+    <div class="right">
+      <h2>Suas tarefas hoje</h2>
+
+      <div class="tarefa">
+        <label>Ligações</label>
+        <div class="barra">
+          <div class="progresso" id="barra1"><span id="contador1">0</span>/10</div>
+        </div>
+        <button class="botao" onclick="aumentar('barra1', 'contador1', 'ligacoes')">+1 ligação</button>
+      </div>
+
+      <div class="tarefa">
+        <label>Propostas</label>
+        <div class="barra">
+          <div class="progresso" id="barra2"><span id="contador2">0</span>/10</div>
+        </div>
+        <button class="botao" onclick="aumentar('barra2', 'contador2', 'propostas')">+1 proposta</button>
+      </div>
+
+      <div class="tarefa">
+        <label>Visitas</label>
+        <div class="barra">
+          <div class="progresso" id="barra3"><span id="contador3">0</span>/10</div>
+        </div>
+        <button class="botao" onclick="aumentar('barra3', 'contador3', 'visitas')">+1 visita</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let progresso = {
+      ligacoes: 0,
+      propostas: 0,
+      visitas: 0
+    };
+
+    function aumentar(barraId, contadorId, tipo) {
+      if (progresso[tipo] >= 10) return;
+
+      progresso[tipo] += 1;
+
+      const barra = document.getElementById(barraId);
+      const contador = document.getElementById(contadorId);
+
+      const percentual = (progresso[tipo] / 10) * 100;
+      barra.style.width = percentual + '%';
+      contador.innerText = progresso[tipo];
+    }
+
+    const profileBtn = document.getElementById('profileBtn');
+const profileDropdown = document.getElementById('profileDropdown');
+
+profileBtn.addEventListener('click', () => {
+  // Alterna a exibição do dropdown
+  if (profileDropdown.style.display === 'none' || profileDropdown.style.display === '') {
+    atualizarResumo();
+    profileDropdown.style.display = 'block';
+  } else {
+    profileDropdown.style.display = 'none';
+  }
+});
+
+function atualizarResumo() {
+  document.getElementById('resLigacoes').innerText = progresso.ligacoes;
+  document.getElementById('resPropostas').innerText = progresso.propostas;
+  document.getElementById('resVisitas').innerText = progresso.visitas;
+}
+function atualizarResumo() {
+  document.getElementById('resLigacoes').innerText = progresso.ligacoes;
+  document.getElementById('resPropostas').innerText = progresso.propostas;
+  document.getElementById('resVisitas').innerText = progresso.visitas;
+
+  document.getElementById('resumoLigacoes').innerText = (progresso.ligacoes * 10) + '%';
+  document.getElementById('resumoPropostas').innerText = (progresso.propostas * 10) + '%';
+  document.getElementById('resumoVisitas').innerText = (progresso.visitas * 10) + '%';
+
+  // Suponha que a meta para ser top 1 de Indaiatuba seja 25 pontos (ligações + propostas + visitas)
+  const total = progresso.ligacoes + progresso.propostas + progresso.visitas;
+  const faltam = Math.max(0, 25 - total);
+  document.getElementById('faltamTop1').innerText = faltam;
+}
+
+// Fecha o dropdown se clicar fora dele
+window.addEventListener('click', function(event) {
+  if (!profileBtn.contains(event.target) && !profileDropdown.contains(event.target)) {
+    profileDropdown.style.display = 'none';
+  }
+});
+  </script>
+</body>
+</html>
